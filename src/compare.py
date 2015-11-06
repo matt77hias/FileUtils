@@ -1,12 +1,14 @@
 import numpy as np
-import os
+
+from name import concat
+from os import listdir
 from PIL import Image
 
 def check(path):
-    for fname1 in os.listdir(path):
-        for fname2 in os.listdir(path):
+    for fname1 in listdir(path):
+        for fname2 in listdir(path):
             if fname1 != fname2:
-                if not (check_equal_files(path + '/' + fname1, path + '/' + fname2)):
+                if not (check_equal_files(concat(path, fname1), concat(path, fname2))):
                     print('error: ' + fname1 + ' vs ' + fname2)
     
 def check_equal_images(A, B):
