@@ -4,16 +4,28 @@ from name import concat
 from os import listdir
 from PIL import Image
 
+#optimization: binary tree comparison
 def check(path):
     for fname1 in listdir(path):
         for fname2 in listdir(path):
-            if fname1 != fname2:
+            if fname1 < fname2:
                 if not (check_equal_files(concat(path, fname1), concat(path, fname2))):
                     print('error: ' + fname1 + ' vs ' + fname2)
+                    #save_diff_files(concat(path, fname1 + ' vs ' + fname2 + '.png'), concat(path, fname1), concat(path, fname2))
+ 
+from cv2 import imwrite               
+def save_diff_images(fname, A, B):
+    D = diff_images(A, B)
+    imwrite(fname, D)
+    
+def save_diff_files(fname, fname1, fname2):
+    A = PIL2array(Image.open(fname1))
+    B = PIL2array(Image.open(fname2))
+    save_diff_images(fname, A, B)
     
 def check_equal_images(A, B):
     return np.max(A - B) == 0
-
+    
 def check_equal_files(fname1, fname2):
     return operate(fname1, fname2, check_equal_images)
 
